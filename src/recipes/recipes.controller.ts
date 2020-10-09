@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -42,5 +43,13 @@ export class RecipesController {
     @GetUser() user: User,
   ): Promise<Recipe> {
     return this.recipesService.createRecipe(createRecipeDto, user);
+  }
+
+  @Delete('/:id')
+  deleteRecipe(
+    @Param('id', ParseIntPipe) id: number,
+    @GetUser() user: User,
+  ): Promise<void> {
+    return this.recipesService.deleteRecipe(id, user);
   }
 }

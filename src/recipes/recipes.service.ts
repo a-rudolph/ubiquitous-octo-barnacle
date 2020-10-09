@@ -49,4 +49,23 @@ export class RecipesService {
 
     return recipe;
   }
+
+  async deleteRecipe(id: number, user: User): Promise<void> {
+    const found = await this.getRecipeById(id, user);
+    try {
+      await Promise.all(
+        found.ingredients.map(ingredient => {
+          const { id } = ingredient;
+          this.ingredientRepository.delete({ id, recipeId: found.id });
+        }),
+      );
+
+      await this.recipeRepository.delete({
+        id,
+        userId: user.id,
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
 }
