@@ -7,7 +7,6 @@ import {
   Unique,
 } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
-import { Task } from 'src/tasks/task.entity';
 import { Recipe } from 'src/recipes/recipe.entity';
 
 @Entity()
@@ -24,13 +23,6 @@ export class User extends BaseEntity {
 
   @Column()
   salt: string;
-
-  @OneToMany(
-    type => Task,
-    task => task.user,
-    { eager: true },
-  )
-  tasks: Task[];
 
   @OneToMany(
     type => Recipe,
